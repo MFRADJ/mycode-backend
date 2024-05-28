@@ -28,7 +28,7 @@ public class AuthentificationControllerTest {
 
     @Test
     public void shouldAcceptRegistration() throws Exception {
-        RegistrationRequest request = new RegistrationRequest("user@example.com", "Password123", "User", "Lastname");
+        RegistrationRequest request = new RegistrationRequest("firstN", "lastN", "email", "password", "password");
         doNothing().when(service).register(request);
 
         mockMvc.perform(post("/auth/register")

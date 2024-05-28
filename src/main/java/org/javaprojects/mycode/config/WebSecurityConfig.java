@@ -38,13 +38,15 @@ public class WebSecurityConfig {
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request-> request.requestMatchers("/auth/**", "/public/**").permitAll()
-                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                        .requestMatchers("/users/**").hasAnyAuthority("USER")
-                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
-                        .anyRequest()
-                            .authenticated()
+                .authorizeHttpRequests(request ->request.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/prof/**").hasAuthority("ROLE_PROF")
+                .requestMatchers("/student/**").hasAuthority("ROLE_STUDENT")
+                .requestMatchers("/auth/**", "/public/**", "/admin/users/getuserbyid/")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
                 )
+
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

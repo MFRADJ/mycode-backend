@@ -29,57 +29,43 @@ public class UserManagementServiceImpl implements UserManagementService{
     private final RoleRepository roleRepository ;
 
     @Override
-    public User getUserById(Long id) {
-        Optional<User> user = userRepository.findUserById(id);
-        if (user.isEmpty()){
-            throw new UserNotFoundException("User with id " + id + " not found");
+    public User add(User user) {
+
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if(existingUser.isPresent()){
+            throw new UserAlreadyExistsException("User with email "+user.getEmail()+" already exists");
         }
-        return user.get();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+       // Role role = roleRepository.findByName("ROLE_USER").orElseThrow(()->new RuntimeException("Role not found"));
+        return userRepository.save(user);
     }
 
-//    @Override
-//    public User add(User user) {Optional<User> theUser = userRepository.findByEmail(user.getEmail());
-//        if (theUser.isPresent()){
-//            throw new UserAlreadyExistsException("A user with " +user.getEmail() +" already exists");
-//        }
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        Role role = roleRepository.findByName("ROLE_USER").get();
-//        user.setRoles(Collections.singletonList(role));
-//        return userRepository.save(user);
-//    }
+    @Override
+    public List<User> getAllUsers() {
 
-//    @Override
-//    public List<UserRecord> getAllUsers() {
-//        return userRepository.findAll()
-//                .stream()
-//                .map(user -> new UserRecord(
-//                        user.getId(),
-//                        user.getFirstName(),
-//                        user.getLastName(),
-//                        user.getEmail(),
-//                        new HashSet<>(user.getRoles()))).collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public void delete(String email) {
-//        Optional<User> user = userRepository.findByEmail(email);
-//        if (user.isEmpty()){
-//            throw new UserNotFoundException("User with email " + email + " not found");
-//        }
-//        userRepository.deleteByEmail(email);
-//    }
-//
-//    @Override
-//    public User getUser(String email) {
-//        Optional<User> user = userRepository.findByEmail(email);
-//        if (user.isEmpty()){
-//            throw new UserNotFoundException("User with email " + email + " not found");
-//        }     return user.get();
-//    }
-//
-//    @Override
-//    public User update(User user) {
-//        return null;
-//    }
+        return userRepository.findAll();
+    }
 
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+
+        return userRepository.findById(id).orElseThrow(()->new UserNotFoundException("User with id "+id+" not found"));
+
+    }
+
+    @Override
+    public User updateUser(Long id, User user) {
+
+        User existingUser = userRepository.findById(id).orElseThrow(()->new UserNotFoundException("User with id "+id+" not found"));
+        existingUser.setEmail(user.getEmail());
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(existingUser);
+    }
 }

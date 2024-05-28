@@ -10,7 +10,6 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class RegistrationRequest {
 
     @NotEmpty(message = "First name is required")
@@ -26,5 +25,9 @@ public class RegistrationRequest {
     @NotNull(message = "Password is required")
     @Size(min = 8, message = "Password should be 8 characters long minimum")
     private String password;
+    @NotEmpty(message = "Password is required")
+    @NotNull(message = "Password is required")
+    @Size(min = 8, message = "Password should be 8 characters long minimum")
+    private String confirmPassword;
 
 }

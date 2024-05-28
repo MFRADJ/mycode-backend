@@ -37,6 +37,9 @@ public class AuthentifictionService {
     private String activationUrl;
 
     public void register(RegistrationRequest request) throws MessagingException {
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new IllegalArgumentException("Passwords do not match!");
+        }
         var userRole = roleRepository.findByName("USER")
                 // todo - better exception handling
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initiated"));

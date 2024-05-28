@@ -24,21 +24,25 @@ public class AuthentificationController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException
-
-    {System.out.println("Received registration request: " + request);
-        service.register(request);
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request)  {
+        try {
+            service.register(request);
+            return ResponseEntity.accepted().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (MessagingException e) {
+            return ResponseEntity.status(500).body("Error sending validation email");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occurred during registration");
+        }
     }
-
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthentificationResponse> authenticate(@RequestBody AuthentificationRequest request) {
-        return ResponseEntity.ok(service.authenticate(request));
+            public ResponseEntity<AuthentificationResponse> authenticate(@RequestBody AuthentificationRequest request) {
+                return ResponseEntity.ok(service.authenticate(request));
     }
     @GetMapping("/activate-account")
-    public void confirm(@RequestParam String token) throws MessagingException {
-        service.activateAccount(token);
+            public void confirm(@RequestParam String token) throws MessagingException {
+                service.activateAccount(token);
     }
-
 
 }
