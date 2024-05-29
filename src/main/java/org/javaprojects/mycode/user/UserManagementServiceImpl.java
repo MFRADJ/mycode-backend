@@ -1,20 +1,14 @@
 package org.javaprojects.mycode.user;
 
-import jakarta.persistence.Id;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.javaprojects.mycode.exception.UserAlreadyExistsException;
 import org.javaprojects.mycode.exception.UserNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.javaprojects.mycode.roles.Role;
 import org.javaprojects.mycode.roles.RoleRepository;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -27,6 +21,11 @@ public class UserManagementServiceImpl implements UserManagementService{
     private final PasswordEncoder passwordEncoder;
 
     private final RoleRepository roleRepository ;
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     @Override
     public User add(User user) {
