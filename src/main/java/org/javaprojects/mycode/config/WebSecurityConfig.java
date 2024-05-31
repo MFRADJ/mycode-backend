@@ -21,15 +21,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
 
-    private static final String[] SECURED_URLs = {"/books/**"};
 
-    private static final String[] UN_SECURED_URLs = {
-            "/books/all",
-            "/books/book/{id}",
-            "/users/**",
-            "/authenticate/**",
-            "/roles/**"
-    };
     private final JwtFilter jwtFilter;
     private final AuthenticationProvider authenticationProvider;
 
@@ -41,7 +33,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(request ->request.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/prof/**").hasAuthority("ROLE_PROF")
                 .requestMatchers("/student/**").hasAuthority("ROLE_STUDENT")
-                .requestMatchers("/auth/**", "/public/**", "/admin/users/getuserbyid/")
+                .requestMatchers("/auth/**", "/public/**","/api/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()

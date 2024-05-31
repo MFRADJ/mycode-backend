@@ -3,6 +3,7 @@ package org.javaprojects.mycode.auth;
 import lombok.RequiredArgsConstructor;
 import org.javaprojects.mycode.email.EmailService;
 import org.javaprojects.mycode.email.EmailTemplateName;
+import org.javaprojects.mycode.roles.Role;
 import org.javaprojects.mycode.roles.RoleRepository;
 import org.javaprojects.mycode.user.User;
 import org.javaprojects.mycode.user.UserRepository;
@@ -93,6 +94,13 @@ public class AuthentifictionService {
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
     }
+
+//    public User promoteToProfessor(Long userId) {
+//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+//        Role professorRole = roleRepository.findByName("ROLE_PROFESSOR");
+//        user.getRoles().add(professorRole);
+//        return userRepository.save(user);
+//    }
 
     private String generateAndSaveActivationToken(User user) {
         // Generate a token

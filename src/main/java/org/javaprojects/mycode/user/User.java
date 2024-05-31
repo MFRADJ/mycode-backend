@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.javaprojects.mycode.roles.Role;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,7 +65,7 @@ public class User implements UserDetails {
 
     /* user roles and Status */
     @ManyToMany(fetch = FetchType.EAGER) @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    private List<Role> roles =new ArrayList<>();;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Profile profile;

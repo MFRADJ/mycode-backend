@@ -1,27 +1,35 @@
 package org.javaprojects.mycode.seance;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.javaprojects.mycode.course.Course;
+import org.javaprojects.mycode.professor.Professor;
+import org.javaprojects.mycode.student.Student;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Seance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private Date date;
-    private Long studentId;
+    private LocalDateTime start;
+    private LocalDateTime end;
+
+    private String url;
+    @ManyToOne
+    private Professor professor;
+    @ManyToOne
+    private Course course;
+    @ManyToOne
+    private Student student;
 }

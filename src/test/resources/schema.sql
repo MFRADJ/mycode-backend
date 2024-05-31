@@ -1,0 +1,34 @@
+-- CREATE TABLE users (
+--                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--                        first_name VARCHAR(100) NOT NULL,
+--                        last_name VARCHAR(100) NOT NULL,
+--                        email VARCHAR(100) NOT NULL UNIQUE,
+--                        password VARCHAR(100) NOT NULL,
+--                        account_locked BOOLEAN NOT NULL,
+--                        enabled BOOLEAN NOT NULL,
+--                        created_at TIMESTAMP NOT NULL,
+--                        updated_at TIMESTAMP NOT NULL
+-- );
+--
+-- CREATE TABLE roles (
+--                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--                        name VARCHAR(100) NOT NULL UNIQUE
+-- );
+--
+-- CREATE TABLE user_roles (
+--                             user_id BIGINT NOT NULL,
+--                             role_id BIGINT NOT NULL,
+--                             PRIMARY KEY (user_id, role_id),
+--                             FOREIGN KEY (user_id) REFERENCES users(id),
+--                             FOREIGN KEY (role_id) REFERENCES roles(id)
+-- );
+--
+-- CREATE TABLE professors (
+--                             id BIGINT PRIMARY KEY,
+--                             FOREIGN KEY (id) REFERENCES users(id)
+-- );
+--
+-- CREATE TABLE students (
+--                           id BIGINT PRIMARY KEY,
+--                           FOREIGN KEY (id) REFERENCES users(id)
+-- );

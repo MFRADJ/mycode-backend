@@ -1,4 +1,4 @@
-package org.javaprojects.mycode.config;
+package org.javaprojects.mycode.admin;
 import org.javaprojects.mycode.roles.Role;
 import org.javaprojects.mycode.roles.RoleRepository;
 import org.javaprojects.mycode.user.User;
