@@ -53,6 +53,7 @@ public class AdminConfig {
             admin.setFirstName(adminFirstName);
             admin.setLastName(adminLastName);
             admin.setPassword(passwordEncoder.encode(adminPassword));
+            admin.setEnabled(true);
             admin.setRoles(Collections.singletonList(adminRole));
             userRepository.save(admin);
         }

@@ -5,6 +5,8 @@ import org.javaprojects.mycode.email.EmailService;
 import org.javaprojects.mycode.email.EmailTemplateName;
 import org.javaprojects.mycode.roles.Role;
 import org.javaprojects.mycode.roles.RoleRepository;
+import org.javaprojects.mycode.student.Student;
+import org.javaprojects.mycode.student.StudentRepository;
 import org.javaprojects.mycode.user.User;
 import org.javaprojects.mycode.user.UserRepository;
 import org.javaprojects.mycode.security.JwtService;
@@ -33,17 +35,19 @@ public class AuthentifictionService {
     private final RoleRepository roleRepository;
     private final TokenRepository tokenRepository;
     private final EmailService emailService;
+    private final StudentRepository studentRepository;
 
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
     public void register(RegistrationRequest request) throws MessagingException {
+
         if (!request.getPassword().equals(request.getConfirmPassword())) {
             throw new IllegalArgumentException("Passwords do not match!");
         }
-        var userRole = roleRepository.findByName("USER")
-                // todo - better exception handling
+        var userRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initiated"));
+
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -55,8 +59,8 @@ public class AuthentifictionService {
                 .build();
         userRepository.save(user);
         sendValidationEmail(user);
-
     }
+
 
     public AuthentificationResponse authenticate(AuthentificationRequest request) {
         var auth = authenticationManager.authenticate(

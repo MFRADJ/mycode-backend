@@ -1,35 +1,27 @@
 package org.javaprojects.mycode.admin;
 
-import jakarta.transaction.Transactional;
 import org.javaprojects.mycode.roles.Role;
-import org.javaprojects.mycode.roles.RoleRepository;
 import org.javaprojects.mycode.user.User;
-import org.javaprojects.mycode.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import javax.management.relation.RoleNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
-@Service
-public class AdminService {
-    @Autowired
-    private UserRepository userRepository;
+public interface AdminService {
+    User removeUserFromRole(Long userId, Long roleId) throws RoleNotFoundException;
+    User assignUerToRole(Long userId, Long roleId) throws RoleNotFoundException;
+    Role removeAllUserFromRole(Long roleId) throws RoleNotFoundException;
+    void deleteRole(Long roleId) throws RoleNotFoundException;
+    List<Role> getAllRoles();
+    Role createRole(Role theRole);
 
-    @Autowired
-    private RoleRepository roleRepository;
+    Role findByName(String name) throws RoleNotFoundException;
+    Role findById(Long roelId) throws RoleNotFoundException;
+    Optional<User> getUserByEmail(String email);
+    User add(User user);
+    List<User> getAllUsers();
+    void deleteUser(Long id);
+    User getUserById(Long id);
+    User updateUser(Long id, User user);
 
-    @Transactional
-    public User promoteToProfessor(Long userId) {
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            throw new RuntimeException("User not found");
-        }
-
-        User user = userOpt.get();
-        Role professorRole = roleRepository.findByName("ROLE_PROFESSOR")
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-
-        user.getRoles().add(professorRole);
-        return userRepository.save(user);
-    }
 }

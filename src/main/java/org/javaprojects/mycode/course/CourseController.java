@@ -19,7 +19,7 @@ public class CourseController {
     @Autowired
     private ProfessorRepository professorRepository;
 
-    @GetMapping("/professor/{professorId}")
+    @GetMapping("/prof/{professorId}")
     public ResponseEntity<List<Course>> getCoursesByProfessor(@PathVariable Long professorId) {
         List<Course> courses = courseService.getCoursesByProfessorId(professorId);
         return ResponseEntity.ok(courses);

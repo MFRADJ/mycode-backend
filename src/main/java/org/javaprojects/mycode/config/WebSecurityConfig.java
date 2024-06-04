@@ -33,8 +33,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(request ->request.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/prof/**").hasAuthority("ROLE_PROF")
                 .requestMatchers("/student/**").hasAuthority("ROLE_STUDENT")
-                .requestMatchers("/auth/**", "/public/**","/api/**")
-                                .permitAll()
+                .requestMatchers(
+                                "/auth/**",
+                                "/public/**",
+                                "/api/**"
+                ).permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

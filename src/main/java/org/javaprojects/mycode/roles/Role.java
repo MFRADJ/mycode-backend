@@ -24,22 +24,22 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    public Role(String name) {
-        this.name = name;
-    }
-    public void removeAllUsersFromRole(){
-        if (this.getUsers() != null){
-            List<User> usersInRole = this.getUsers().stream().toList();
-            usersInRole.forEach(this::removeUserFromRole);
-        }
-    }
-    public void removeUserFromRole(User user) {
-        user.getRoles().remove(this);
-        this.getUsers().remove(user);
-    }
-    public void assignUserToRole(User user){
-        user.getRoles().add(this);
-        this.getUsers().add(user);
-    }
+//    public Role(String name) {
+//        this.name = name;
+//    }
+//    public void removeAllUsersFromRole(){
+//        if (this.getUsers() != null){
+//            List<User> usersInRole = this.getUsers().stream().toList();
+//            usersInRole.forEach(this::removeUserFromRole);
+//        }
+//    }
+//    public void removeUserFromRole(User user) {
+//        user.getRoles().remove(this);
+//        this.getUsers().remove(user);
+//    }
+//    public void assignUserToRole(User user){
+//        user.getRoles().add(this);
+//        this.getUsers().add(user);
+//    }
 
 }
